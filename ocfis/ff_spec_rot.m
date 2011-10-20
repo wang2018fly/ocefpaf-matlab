@@ -1,4 +1,4 @@
-return indfunction [puv,quv,cw,ccw] = ff_spec_rot(u,v);
+function [puv,quv,cw,ccw] = ff_spec_rot(u, v);
 % ff_spec_rot.m -> compute the rotary spectra from u,v velocity components
 %
 % use:  [puv,quv,cw,ccw] = ff_spec_rot(u,v);
