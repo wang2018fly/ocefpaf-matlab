@@ -51,23 +51,23 @@ figure, set(gcf,'color','w'); hold on;
  if hlp==3; load([paf,arq]); plot(-gsfm(:,3),gsfm(:,2),'r'); end
 
 if hlp==1 | hlp==3;
-	clc, disp('%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%')
-	     disp('% LEFT button digitize        %')
-	     disp('% RIGHT button zoom in        %')
-	     disp('% DOUBLE LEFT button zoom out %')
-	     disp('% -- Press ENTER when done -- %')
-	     disp('%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%')
-	%% calls ginput2
-	[xdata,ydata] = ginput2('k.');
-	%% plot the digitized front for corrections
-	title('Correct the points with the mouse - When done press enter','FontSize',20,'FontWeight','Bold')
-	h=plot(xdata,ydata,'o','MarkerSize',4,'MarkerFaceColor','k','MarkerEdgeColor','k'); % plot front
+    clc, disp('%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%')
+         disp('% LEFT button digitize        %')
+         disp('% RIGHT button zoom in        %')
+         disp('% DOUBLE LEFT button zoom out %')
+         disp('% -- Press ENTER when done -- %')
+         disp('%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%')
+    %% calls ginput2
+    [xdata,ydata] = ginput2('k.');
+    %% plot the digitized front for corrections
+    title('Correct the points with the mouse - When done press enter','FontSize',20,'FontWeight','Bold')
+    h=plot(xdata,ydata,'o','MarkerSize',4,'MarkerFaceColor','k','MarkerEdgeColor','k'); % plot front
 end
 
 if hlp==2;
-	imday=datenum([arqi(9:10),'-',arqi(6:8),'-20',arqi(4:5)])-datenum(['00-00-20',arqi(4:5)]); frday=arq(10:end-4);
-	tit=['Correct the points with the mouse image day: ', num2str(imday),' and front day: ', num2str(frday)];
-	title(tit,'FontSize',20,'FontWeight','Bold')
+    imday=datenum([arqi(9:10),'-',arqi(6:8),'-20',arqi(4:5)])-datenum(['00-00-20',arqi(4:5)]); frday=arq(10:end-4);
+    tit=['Correct the points with the mouse image day: ', num2str(imday),' and front day: ', num2str(frday)];
+    title(tit,'FontSize',20,'FontWeight','Bold')
 end
 
  moveplot(h,'axy'); % start move plot
@@ -89,35 +89,35 @@ xdata=get(h,'XData'); ydata=get(h,'YData');
  t=datenum([arqi(9:10),'-',arqi(6:8),'-',['20',arqi(4:5)]]);  % date from image filename
 
 if t > nrt
-	ssh_opt=0;
+    ssh_opt=0;
 else
-	ssh_opt=1;
-	if t < upd
-		clc, disp('Using Updated Absolute SSH')
-	else
-		url='http://opendap.aviso.oceanobs.com/thredds/dodsC/duacs_global_nrt_madt_merged_h'; % NRT MADT
-		clc, disp('Using Near Real Time Absolute SSH')
-	end
+    ssh_opt=1;
+    if t < upd
+        clc, disp('Using Updated Absolute SSH')
+    else
+        url='http://opendap.aviso.oceanobs.com/thredds/dodsC/duacs_global_nrt_madt_merged_h'; % NRT MADT
+        clc, disp('Using Near Real Time Absolute SSH')
+    end
 end
 
 if ssh_opt == 1
-	%% correct digitized data points with SSH
-	bbox = [-85 -45 20 55]; bbox(1:2) = 360+bbox(1:2); % [lonmin lonmax latmin latmax] positive longitude for server
-	time=nc_varget(url,'time'); time = datenum(1950, 1, time, 0, 0, 0);
-	NbLatitudes=nc_varget(url,'NbLatitudes'); NbLongitudes=nc_varget(url,'NbLongitudes');
-	[d,itime]   = min(abs(time-t)); % subset
-	[d,ilonmin] = min(abs(NbLongitudes-bbox(1))); [d,ilonmax] = min(abs(NbLongitudes-bbox(2)));
-	[d,ilatmin] = min(abs(NbLatitudes-bbox(3)));  [d,ilatmax] = min(abs(NbLatitudes-bbox(4)));
-	Nblon=eval(['length(' sprintf('[%d:%d]', [ilonmin ilonmax]),')']);
-	Nblat=eval(['length(' sprintf('[%d:%d]', [ilatmin ilatmax]),')']);
-	%% assign values
-	ssh=nc_varget(url,'Grid_0001',[itime ilonmin ilatmin],[1 Nblon Nblat]); ssh = ssh';
-	lon=nc_varget(url,'NbLongitudes',[ilonmin],[Nblon]);
-	lat=nc_varget(url,'NbLatitudes',[ilatmin],[Nblat]);
-	lon = [lon(find(lon<=180)); lon(find(lon>180))-360];
-	[c,h]=contour(lon,lat,ssh,'Color',[.25 .25 .25]); % plot ssh
-	h=plot(xdata,ydata,'r.'); moveplot(h,'axy'); pause; moveplot(h,'off')
-	xdata=get(h,'XData'); ydata=get(h,'YData');
+    %% correct digitized data points with SSH
+    bbox = [-85 -45 20 55]; bbox(1:2) = 360+bbox(1:2); % [lonmin lonmax latmin latmax] positive longitude for server
+    time=nc_varget(url,'time'); time = datenum(1950, 1, time, 0, 0, 0);
+    NbLatitudes=nc_varget(url,'NbLatitudes'); NbLongitudes=nc_varget(url,'NbLongitudes');
+    [d,itime]   = min(abs(time-t)); % subset
+    [d,ilonmin] = min(abs(NbLongitudes-bbox(1))); [d,ilonmax] = min(abs(NbLongitudes-bbox(2)));
+    [d,ilatmin] = min(abs(NbLatitudes-bbox(3)));  [d,ilatmax] = min(abs(NbLatitudes-bbox(4)));
+    Nblon=eval(['length(' sprintf('[%d:%d]', [ilonmin ilonmax]),')']);
+    Nblat=eval(['length(' sprintf('[%d:%d]', [ilatmin ilatmax]),')']);
+    %% assign values
+    ssh=nc_varget(url,'Grid_0001',[itime ilonmin ilatmin],[1 Nblon Nblat]); ssh = ssh';
+    lon=nc_varget(url,'NbLongitudes',[ilonmin],[Nblon]);
+    lat=nc_varget(url,'NbLatitudes',[ilatmin],[Nblat]);
+    lon = [lon(find(lon<=180)); lon(find(lon>180))-360];
+    [c,h]=contour(lon,lat,ssh,'Color',[.25 .25 .25]); % plot ssh
+    h=plot(xdata,ydata,'r.'); moveplot(h,'axy'); pause; moveplot(h,'off')
+    xdata=get(h,'XData'); ydata=get(h,'YData');
 end
 
 day=zeros(length(xdata),1)+datenum([arqi(9:10),'-',arqi(6:8),'-20',arqi(4:5)])-datenum(['00-00-20',arqi(4:5)]);
