@@ -1,4 +1,4 @@
-function [ybin, xbin, n, s, Y, X] = ff_binavg(x,y,db)
+function [ybin, xbin, n, s,  Y, X] = ff_binavg(x,y,db)
 % ff_binavg.m - bin average y(x) onto ybin(xbin)
 %
 % use:   [ybin,xbin,n,s] = ff_binavg(x,y,db)
@@ -40,13 +40,14 @@ x = x(f);
 y = y(f);
 
 xbin = x_min:db:x_max;
-%  len_x = length(xbin);
 
-%  for kk=1:len_x-1
-%          f = find(x >= xbin(kk) & x <= xbin(kk+1));
-%          Y(kk) = mean(y(f));
-%          X(kk) = (1/db) * (xbin(kk) + xbin(kk+1));
-%  end
+% Using find.
+len_x = length(xbin);
+for kk=1:len_x-1
+        f = find(x >= xbin(kk) & x <= xbin(kk+1));
+        Y(kk) = mean(y(f));
+        X(kk) = (1/db) * (xbin(kk) + xbin(kk+1));
+end
 
 % NaNs check.
 idx  = find(~isnan(y));
@@ -78,4 +79,4 @@ sum  = full(sparse(bin(idx), idx * 0 + 1, y(idx).^2));
 sum  = [sum; zeros(length(xbin) - length(sum), 1) * nan];
 s    = sqrt(sum./(n-1) - ybin.^2.*n./(n-1) );
 
-xbin = xbin + 1/db;
+xbin = xbin + 1/db;  % FIXME
