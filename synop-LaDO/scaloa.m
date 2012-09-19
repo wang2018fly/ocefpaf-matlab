@@ -46,7 +46,7 @@ dc2=((xc(ones(n,1),:)'-x(ones(nv,1),:)).^2+...
 (yc(ones(n,1),:)'-y(ones(nv,1),:)).^2);
 
 % constroe a matriz de correlacao entre as observacoes (matriz C) usando a
-matriz "d"
+%  matriz "d"
 % e a matriz de correlacao cruzada entre os pontos de observacao e
 % os pontos de grade (matriz A) usando a matriz "dc"
 
@@ -55,7 +55,7 @@ A=(1-err)*exp(-d2/corrlen^2);
 
 % soma a matriz diagonal associada ao erro amostral assumido
 % (eh diagonal pois o erro eh assumido aleatorio, e portanto, soh se
-correlaciona
+%  correlaciona
 % com ele na mesma localidade)
 
 A=A+err*eye(size(A));
