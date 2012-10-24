@@ -8,7 +8,8 @@ matdir = [home, '/Dropbox/matlab_misc/'];
 addpath(genpath([matdir, 'mymatlab']), '-end')
 addpath(genpath([matdir, 'ocefpaf-matlab']), '-end')
 addpath(genpath([matdir, 'mat-svn-toolboxes']), '-end')
-addpath('/home/filipe/CODAS/adcp_programs/matlab', '-end')
+addpath('/home/filipe/OcFis/CODAS/adcp_programs/matlab', '-end')
+adcppath; radcppath; mexpath
 
 % snctools with java
 % This is wierd, javapath prepends the $HOME.
