@@ -1,4 +1,4 @@
-function [tp,ep,A,C]=scaloa(xc,yc,x,y,t,corrlen,err)
+function [tp,ep]=scaloa(xc,yc,x,y,t,corrlen,err)
 
 %function [tp,ep]=scaloa(xc,yc,x,y,t,corrlen,err)
 
@@ -81,9 +81,7 @@ end
 % alem, claro, do comprimento de correlacao e variancia de erro amostral
 % escolhidos
 
-if(nargout==4)
 ep=1-sum(C'.*(A\C'))/(1-err);
-end
 
 % a scaloa assume que vc jah determinou estes parametros ou simplesmente os
 % escolheu arbitrariamente
