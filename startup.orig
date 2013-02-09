@@ -3,13 +3,13 @@
 
 % add my toolboxes path at the end of the path
 home = getenv('HOME');
-matdir = [home, '/Dropbox/matlab_misc/'];
+matdir = [home, '/Dropbox/REPOS/'];
 
 addpath(genpath([matdir, 'mymatlab']), '-end')
 addpath(genpath([matdir, 'ocefpaf-matlab']), '-end')
 addpath(genpath([matdir, 'mat-svn-toolboxes']), '-end')
-addpath('/home/filipe/OcFis/CODAS/adcp_programs/matlab', '-end')
-adcppath; radcppath; mexpath
+%addpath('/home/filipe/OcFis/CODAS/adcp_programs/matlab', '-end')
+%adcppath; radcppath; mexpath
 
 % snctools with java
 % This is wierd, javapath prepends the $HOME.
